@@ -1,0 +1,183 @@
+/* Custom blue theme */
+:root {
+  --bs-primary: #328dc9;
+}
+
+.btn-primary,
+.bg-primary {
+  background-color: #328dc9 !important;
+  border-color: #328dc9 !important;
+  color: #fff !important;
+}
+
+.text-primary {
+  color: #0f344d !important;
+}
+
+a,
+.btn-link {
+  color: #328dc9;
+}
+
+a:hover,
+.btn-link:hover {
+  color: #226a99;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(36%) sepia(99%) saturate(747%) hue-rotate(174deg) brightness(92%) contrast(92%);
+}
+
+.card-header,
+.card-title {
+  color: #328dc9;
+}
+
+/* qrotom.com style polish */
+:root {
+  --qrotom-blue: #328dc9;
+  --qrotom-gray: #f7f7f7;
+  --qrotom-border: #e0e0e0;
+}
+
+body {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background: #f7f7f7;
+}
+
+.qrotom-gallery-main {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.qrotom-gallery-main img {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  max-height: 420px;
+  object-fit: contain;
+  background: #fff;
+}
+.qrotom-gallery-thumbs {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.qrotom-gallery-thumbs img {
+  border: 2px solid var(--qrotom-border);
+  border-radius: 6px;
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+.qrotom-gallery-thumbs img:hover {
+  border-color: var(--qrotom-blue);
+}
+
+.qrotom-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+.qrotom-price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--qrotom-blue);
+  margin-bottom: 1.5rem;
+}
+
+.qrotom-table {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.qrotom-table th, .qrotom-table td {
+  border: none;
+  padding: 3px 4px;
+  vertical-align: middle;
+  font-size: 0.82rem;
+}
+.qrotom-table th {
+  /* background: #f2f6fa; */
+  color: #555;
+  font-weight: 600;
+  width: 110px;
+  font-size: 0.92rem;
+}
+.qrotom-table tr:not(:last-child) td {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.qrotom-seller-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  margin-bottom: 24px;
+  padding: 20px 24px;
+}
+.qrotom-seller-card h5 {
+  color: var(--qrotom-blue);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.qrotom-seller-card p {
+  margin-bottom: 0.5rem;
+}
+
+.qrotom-action-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 20px 24px;
+}
+.qrotom-action-card .btn {
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.qrotom-action-card .btn-primary {
+  background: var(--qrotom-blue);
+  border-color: var(--qrotom-blue);
+}
+.qrotom-action-card .btn-outline-danger {
+  border-width: 2px;
+}
+
+.qrotom-desc {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 991px) {
+  .qrotom-seller-card, .qrotom-action-card {
+    margin-top: 24px;
+  }
+}
+
+@media (min-width: 992px) {
+  .qrotom-equal-height-row {
+    display: flex;
+    align-items: stretch;
+  }
+  .qrotom-equal-height-row > [class^='col-'] {
+    display: flex;
+    flex-direction: column;
+  }
+  .qrotom-table, .qrotom-gallery-main {
+    max-height: 6500px;
+  }
+  .qrotom-table {
+    overflow: auto;
+  }
+} 

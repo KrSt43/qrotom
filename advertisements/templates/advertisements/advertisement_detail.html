@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}{{ advertisement.title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
+    <!-- Title at the top -->
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="qrotom-title">{{ advertisement.title }}</div>
+        </div>
+    </div>
+    <!-- Main content: Images | Info | Seller -->
+    <div class="row g-4 qrotom-equal-height-row align-items-start">
+        <div class="col-lg-6">
+            <div class="qrotom-gallery-main">
+                {% if images %}
+                <div id="adCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                    <div class="carousel-inner" style="height: 400px; background: #fff; border-radius: 8px;">
+                        {% for image in images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}" style="height: 100%;">
+                            <img src="{{ image.image.url }}" class="d-block w-100 h-100" style="object-fit: cover; border-radius: 8px;" alt="{{ advertisement.title }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if images|length > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#adCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#adCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center rounded border" style="height: 400px;">
+                    <i class="bi bi-car-front display-1 text-muted"></i>
+                </div>
+                {% endif %}
+                {% if images|length > 1 %}
+                <div class="qrotom-gallery-thumbs mt-2">
+                    {% for image in images %}
+                    <img src="{{ image.image.url }}" class="thumb-img" alt="{{ advertisement.title }}" style="border-radius:6px;" data-bs-target="#adCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-3 d-flex flex-column">
+            <div class="qrotom-table table-responsive mb-4 flex-grow-1 d-flex flex-column justify-content-between">
+                <table class="table mb-0 mt-1">
+                    <tbody>
+                        <tr><th>Fiyat</th><td class="qrotom-price">{{ advertisement.price|intcomma }} TL</td></tr>
+                        <tr><th>İlan No</th><td>{{ advertisement.pk }}</td></tr>
+                        <tr><th>İlan Tarihi</th><td>{{ advertisement.created_at|date:'d F Y' }}</td></tr>
+                        <tr><th>Marka</th><td>{{ advertisement.brand }}</td></tr>
+                        <tr><th>Seri</th><td>{{ advertisement.model }}</td></tr>
+                        <tr><th>Model</th><td>{{ advertisement.title }}</td></tr>
+                        <tr><th>Yıl</th><td>{{ advertisement.year }}</td></tr>
+                        <tr><th>Yakıt Tipi</th><td>{{ advertisement.fuel_type }}</td></tr>
+                        <tr><th>Vites</th><td>{{ advertisement.transmission }}</td></tr>
+                        <tr><th>Araç Durumu</th><td>{% if advertisement.is_active %}İkinci El{% else %}Satıldı{% endif %}</td></tr>
+                        <tr><th>KM</th><td>{{ advertisement.kilometer|intcomma }} km</td></tr>
+                        <tr><th>Kasa Tipi</th><td>SUV</td></tr>
+                        <tr><th>Motor Gücü</th><td>{{ advertisement.engine_power }} hp</td></tr>
+                        <tr><th>Motor Hacmi</th><td>{{ advertisement.engine_size }} cc</td></tr>
+                        <tr><th>Çekiş</th><td>4x4</td></tr>
+                        <tr><th>Kapı</th><td>5</td></tr>
+                        <tr><th>Renk</th><td>{{ advertisement.color }}</td></tr>
+                        <tr><th>Garanti</th><td>Hayır</td></tr>
+                        <tr><th>Ağır Hasar Kayıtlı</th><td>Hayır</td></tr>
+                        <tr><th>Plaka / Uyruk</th><td>Türkiye (TR) Plakalı</td></tr>
+                        <tr><th>Kimden</th><td>{% if advertisement.seller.corporateprofile %}Kurumsal{% else %}qrotom{% endif %}</td></tr>
+                        <tr><th>Takas</th><td>Evet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="qrotom-seller-card mb-4">
+                <h5>Satıcı Bilgileri</h5>
+                {% if advertisement.seller.corporateprofile %}
+                    <div class="fw-bold">{{ advertisement.seller.corporateprofile.company_name }}</div>
+                    <p>Vergi No: {{ advertisement.seller.corporateprofile.tax_no }}</p>
+                    <p>Ünvan: {{ advertisement.seller.corporateprofile.title }}</p>
+                {% else %}
+                    <div class="fw-bold">{{ advertisement.seller.customerprofile.name }} {{ advertisement.seller.customerprofile.surname }}</div>
+                {% endif %}
+                <p><strong>Telefon:</strong> <span class="text-primary">Gizli</span></p>
+                
+                <!-- QR Code Section -->
+                <div class="mt-4 text-center">
+                    <h5 class="mb-3 text-primary">QR Kod</h5>
+                    <div class="d-flex justify-content-center">
+                        <div class="qr-container" style="background: white; padding: 16px; border-radius: 8px; display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                            <div id="qrcode"></div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if user == advertisement.seller %}
+                <div class="qrotom-action-card mt-3">
+                    <a href="{% url 'edit_advertisement' advertisement.pk %}" class="btn btn-primary w-100 mb-2">
+                        <i class="bi bi-pencil"></i> İlanı Düzenle
+                    </a>
+                    <a href="{% url 'delete_advertisement' advertisement.pk %}" class="btn btn-outline-danger w-100">
+                        <i class="bi bi-trash"></i> İlanı Sil
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Description below -->
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="qrotom-desc">
+                <h5 class="text-primary mb-3">Açıklama</h5>
+                <p class="card-text">{{ advertisement.description|linebreaks }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- QRCode.js -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script>
+    // Wait for the page to load
+    window.onload = function() {
+        // Get the current URL
+        let currentUrl = window.location.href;
+        console.log('Current URL:', currentUrl);
+        
+        // Create QR code
+        new QRCode(document.getElementById("qrcode"), {
+            text: currentUrl,
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    };
+</script>
+{% endblock %} 

@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Advertisement{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-primary text-white py-4">
+                    <h3 class="text-center mb-0 fw-bold">Create New Advertisement</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data" novalidate class="needs-validation">
+                        {% csrf_token %}
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0 fw-semibold">Vehicle Information</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="{{ form.title.id_for_label }}" class="form-label fw-medium">Title</label>
+                                            {{ form.title.errors }}
+                                            <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" class="form-control form-control-lg" value="{{ form.title.value|default:'' }}">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="id_brand" class="form-label fw-medium">Brand</label>
+                                            {{ form.brand.errors }}
+                                            <select name="brand" id="id_brand" class="form-select form-select-lg">
+                                                <option value="BMW">BMW</option>
+                                                <option value="AUDI">AUDI</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="{{ form.model.id_for_label }}" class="form-label fw-medium">Model</label>
+                                            {{ form.model.errors }}
+                                            <input type="text" name="{{ form.model.name }}" id="{{ form.model.id_for_label }}" class="form-control form-control-lg" value="{{ form.model.value|default:'' }}">
+                                        </div>
+                                        
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="{{ form.year.id_for_label }}" class="form-label fw-medium">Year</label>
+                                                    {{ form.year.errors }}
+                                                    <input type="number" name="{{ form.year.name }}" id="{{ form.year.id_for_label }}" class="form-control form-control-lg" value="{{ form.year.value|default:'' }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="{{ form.kilometer.id_for_label }}" class="form-label fw-medium">Kilometer</label>
+                                                    {{ form.kilometer.errors }}
+                                                    <input type="number" name="{{ form.kilometer.name }}" id="{{ form.kilometer.id_for_label }}" class="form-control form-control-lg" value="{{ form.kilometer.value|default:'' }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0 fw-semibold">Technical Details</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="{{ form.fuel_type.id_for_label }}" class="form-label fw-medium">Fuel Type</label>
+                                            {{ form.fuel_type.errors }}
+                                            <select name="{{ form.fuel_type.name }}" id="{{ form.fuel_type.id_for_label }}" class="form-select form-select-lg">
+                                                {% for value, text in form.fuel_type.field.choices %}
+                                                    <option value="{{ value }}" {% if form.fuel_type.value == value %}selected{% endif %}>{{ text }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="{{ form.transmission.id_for_label }}" class="form-label fw-medium">Transmission</label>
+                                            {{ form.transmission.errors }}
+                                            <select name="{{ form.transmission.name }}" id="{{ form.transmission.id_for_label }}" class="form-select form-select-lg">
+                                                {% for value, text in form.transmission.field.choices %}
+                                                    <option value="{{ value }}" {% if form.transmission.value == value %}selected{% endif %}>{{ text }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="{{ form.engine_power.id_for_label }}" class="form-label fw-medium">Engine Power (HP)</label>
+                                                    {{ form.engine_power.errors }}
+                                                    <input type="number" name="{{ form.engine_power.name }}" id="{{ form.engine_power.id_for_label }}" class="form-control form-control-lg" value="{{ form.engine_power.value|default:'' }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="{{ form.engine_size.id_for_label }}" class="form-label fw-medium">Engine Size (cc)</label>
+                                                    {{ form.engine_size.errors }}
+                                                    <input type="number" name="{{ form.engine_size.name }}" id="{{ form.engine_size.id_for_label }}" class="form-control form-control-lg" value="{{ form.engine_size.value|default:'' }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="id_color" class="form-label fw-medium">Color</label>
+                                            {{ form.color.errors }}
+                                            <input type="text" name="color" id="id_color" class="form-control form-control-lg" placeholder="Enter color" value="{{ form.color.value|default:'' }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4 border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="{{ form.price.id_for_label }}" class="form-label fw-medium">Price (TL)</label>
+                                            {{ form.price.errors }}
+                                            <input type="number" name="{{ form.price.name }}" id="{{ form.price.id_for_label }}" class="form-control form-control-lg" value="{{ form.price.value|default:'' }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="id_location" class="form-label fw-medium">Location</label>
+                                            {{ form.location.errors }}
+                                            <input type="text" name="location" id="id_location" class="form-control form-control-lg" placeholder="Enter location" value="{{ form.location.value|default:'' }}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="{{ form.description.id_for_label }}" class="form-label fw-medium">Description</label>
+                                    {{ form.description.errors }}
+                                    <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" class="form-control form-control-lg" rows="4">{{ form.description.value|default:'' }}</textarea>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="{{ image_form.image.id_for_label }}" class="form-label fw-medium">Images</label>
+                                    <input type="file" name="image" id="{{ image_form.image.id_for_label }}" class="form-control form-control-lg" multiple required>
+                                    <div class="form-text text-muted">You can select multiple images. The first image will be the primary image.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-3 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg fw-semibold">
+                                <i class="fas fa-plus-circle me-2"></i>Create Advertisement
+                            </button>
+                            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control, .form-select {
+        border-radius: 0.5rem;
+        border: 1px solid #dee2e6;
+        padding: 0.75rem 1rem;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    
+    .card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .btn {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .form-label {
+        color: #495057;
+    }
+</style>
+{% endblock %} 

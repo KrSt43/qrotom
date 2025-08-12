@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Car Listings{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h2 class="text-primary">Car Listings</h2>
+    </div>
+    {% if user.is_authenticated %}
+    <div class="col text-end">
+        <a href="{% url 'create_advertisement' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Create New Advertisement
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for ad in advertisements %}
+    <div class="col">
+        <div class="card h-100 advertisement-card">
+            {% if ad.images.exists %}
+                <img src="{{ ad.images.first.image.url }}" class="card-img-top car-image border border-primary" alt="{{ ad.title }}">
+            {% else %}
+                <div class="card-img-top car-image bg-light d-flex align-items-center justify-content-center border border-primary">
+                    <i class="bi bi-car-front display-1 text-muted"></i>
+                </div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title text-primary">{{ ad.title }}</h5>
+                <p class="card-text">
+                    <strong>{{ ad.brand }} {{ ad.model }}</strong><br>
+                    <small class="text-muted">
+                        {{ ad.year }} | {{ ad.kilometer }} km | {{ ad.fuel_type }} | {{ ad.transmission }}
+                    </small>
+                </p>
+                <p class="card-text">
+                    <strong class="text-primary">{{ ad.price }} TL</strong>
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'advertisement_detail' ad.pk %}" class="btn btn-primary w-100">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            No advertisements found.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 
